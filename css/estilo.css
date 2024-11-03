@@ -31,7 +31,7 @@ body {
     background-position-y: 0px;
     background-repeat: no-repeat;
     width: 100vw;
-    height: 100vh;
+    height: 140vh;
 	
 	
 }
@@ -44,7 +44,7 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	border: 2px solid red;
+	
 
 }
 
@@ -115,6 +115,15 @@ body {
 		transition: 1.5s;
 		font-size: 4rem;
 	
+	}
+
+	.volume-estatistica{
+		width: 100%;
+		padding-top: 100px;
+		text-align: center;
+		color: #000000;
+		padding-bottom: 50px;
+		
 	}
 
 	

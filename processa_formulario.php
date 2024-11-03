@@ -1,36 +1,27 @@
 <?php
-// Configuração da conexão com o banco de dados
-$servername = "localhost:3306";  // Nome do servidor do banco de dados
-$username = "root";      // Nome de usuário do banco de dados
-$password = "";        // Senha do banco de dados
-$dbname = "formulariofamilia"; // Nome do banco de dados
+$servername = "servidor_remoto.com";
+$username = "usuario";
+$password = "senha";
+$dbname = "nome_do_banco";
 
-// Cria uma conexão com o banco de dados
 $conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verifica se a conexão foi bem-sucedida
 if ($conn->connect_error) {
-    die("Falha na conexão com o banco de dados: " . $conn->connect_error);
+    die("Conexão falhou: " . $conn->connect_error);
 }
 
-// Obtém os dados enviados pelo formulário
-$nome = $_POST['nome'];
-$num_pessoas = $_POST['num_pessoas'];
-$empregado = $_POST['empregado'];
-$menores_idade = $_POST['menores_idade'];
-$matriculados = $_POST['matriculados'];
+header('Content-Type: text/csv');
+header('Content-Disposition: attachment; filename="dados.csv"');
+$output = fopen('php://output', 'w');
+fputcsv($output, array('Coluna1', 'Coluna2', 'Coluna3'));
 
-// Prepara e executa a consulta SQL para inserir os dados na tabela 'familia'
-$sql = "INSERT INTO familia (nome, num_pessoas, empregado, menores_idade, matriculados)
-        VALUES ('$nome', $num_pessoas, '$empregado', $menores_idade, '$matriculados')";
+$query = "SELECT coluna1, coluna2, coluna3 FROM sua_tabela";
+$result = $conn->query($query);
 
-// Executa a consulta e verifica se os dados foram inseridos com sucesso
-if ($conn->query($sql) === TRUE) {
-    echo "Dados inseridos com sucesso!";
-} else {
-    echo "Erro ao inserir os dados: " . $conn->error;
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        fputcsv($output, $row);
+    }
 }
-
-// Fecha a conexão com o banco de dados
+fclose($output);
 $conn->close();
 ?>
